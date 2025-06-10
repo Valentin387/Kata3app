@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.kata3.kata3app.data.repositories.AuthRepository
 import com.kata3.kata3app.databinding.ActivitySignupBinding
 import com.kata3.kata3app.io.AuthService
 import com.kata3.kata3app.ui.login.LoginActivity
@@ -22,12 +24,12 @@ class SignupActivity : AppCompatActivity() {
     private val authService: AuthService by lazy {
         AuthService.create(applicationContext)
     }
-    private val signupViewModel: SignupViewModel by viewModels {
-        object : ViewModelProvider.Factory {
+    private val signupViewModel: SignupViewModel by lazy {
+        ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return SignupViewModel(AuthRepository(authService)) as T
             }
-        }
+        })[SignupViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,8 +81,6 @@ class SignupActivity : AppCompatActivity() {
                     is RegisterResult.Error -> {
                         Toast.makeText(this@SignupActivity, result.message, Toast.LENGTH_SHORT).show()
                     }
-
-                    null -> TODO()
                 }
             }
         }
