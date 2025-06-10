@@ -3,6 +3,7 @@ package com.kata3.kata3app.ui.main.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kata3.kata3app.data.DTO.ItemResponse
 import com.kata3.kata3app.databinding.ItemLayoutBinding
 
 class ItemAdapter(
@@ -12,7 +13,8 @@ class ItemAdapter(
 
     inner class ItemViewHolder(private val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ItemResponse) {
-            binding.tvItemName.text = item.name
+            binding.tvName.text = item.name
+            binding.tvDescription.text = item.description ?: "No description"
             binding.root.setOnClickListener { onClickListener(item) }
         }
     }

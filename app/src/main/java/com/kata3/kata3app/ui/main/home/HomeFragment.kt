@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kata3.kata3app.R
+import com.kata3.kata3app.data.DTO.ItemResponse
 import com.kata3.kata3app.data.repositories.ItemRepository
 import com.kata3.kata3app.databinding.FragmentHomeBinding
 import com.kata3.kata3app.io.ItemService
@@ -50,11 +51,12 @@ class HomeFragment : Fragment() {
         val itemType = arguments?.getString("type") ?: "PROJECT"
         val token = fetchTokenFromPreferences()
 
-        showLoadingSpinner()
-        homeViewModel.fetchItems(token, itemType)
-
         initRecyclerView()
         setupClickListeners()
+        observeViewModel()
+
+        showLoadingSpinner()
+        homeViewModel.fetchItems(token, itemType)
     }
 
     private fun initRecyclerView() {
@@ -70,16 +72,25 @@ class HomeFragment : Fragment() {
         binding.rvItems.layoutManager = llmanager
         binding.rvItems.adapter = adapter
         binding.rvItems.addItemDecoration(decoration)
-
-        homeViewModel.itemList.observe(viewLifecycleOwner) { items ->
-            hideLoadingSpinner()
-            adapter.updateList(items)
-        }
     }
 
     private fun setupClickListeners() {
         binding.btAddNew.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_newItemFragment)
+        }
+    }
+
+    private fun observeViewModel() {
+        homeViewModel.itemList.observe(viewLifecycleOwner) { items ->
+            hideLoadingSpinner()
+            adapter.updateList(items)
+        }
+
+        homeViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
+            hideLoadingSpinner()
+            if (message != null) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
