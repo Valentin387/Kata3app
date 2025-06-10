@@ -19,7 +19,7 @@ sealed class DetailsResult {
 class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
     private val _item = MutableLiveData<ItemResponse?>()
-    val item: LiveData<ItemResponse> = _item
+    val item: LiveData<ItemResponse?> = _item
 
     private val _result = MutableLiveData<DetailsResult>()
     val result: LiveData<DetailsResult> = _result
@@ -30,7 +30,7 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                 val response = itemRepository.fetchItem(token, id)
                 if (response != null) {
                     _item.postValue(response)
-                    _result.postValue(null)
+                    //_result.postValue(null)
                 } else {
                     _result.postValue(DetailsResult.Error("Failed to load item."))
                 }
