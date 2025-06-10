@@ -72,17 +72,17 @@ class SignupActivity : AppCompatActivity() {
         lifecycleScope.launch {
             signupViewModel.registerResult.collect { result ->
                 hideLoadingSpinner()
-                when (result) {
-                    is RegisterResult.Success -> {
-                        Toast.makeText(this@SignupActivity, "Registration successful!", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
-                        finish()
+                if (result != null) {
+                    when (result) {
+                        is RegisterResult.Success -> {
+                            Toast.makeText(this@SignupActivity, "Registration successful!", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
+                            finish()
+                        }
+                        is RegisterResult.Error -> {
+                            Toast.makeText(this@SignupActivity, result.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    is RegisterResult.Error -> {
-                        Toast.makeText(this@SignupActivity, result.message, Toast.LENGTH_SHORT).show()
-                    }
-
-                    null -> TODO()
                 }
             }
         }

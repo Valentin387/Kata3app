@@ -27,7 +27,7 @@ class AuthRepository(private val authService: AuthService) {
 
     suspend fun loginUser(username: String, password: String): Response<SignUpResponse> {
         return try {
-            val response = authService.postLogin(SignInRequest(username))
+            val response = authService.postLogin(SignInRequest(username, password))
             if (response.isSuccessful) {
                 Log.d("AuthRepository", "Login successful")
             } else {
