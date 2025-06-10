@@ -81,6 +81,8 @@ class SignupActivity : AppCompatActivity() {
                     is RegisterResult.Error -> {
                         Toast.makeText(this@SignupActivity, result.message, Toast.LENGTH_SHORT).show()
                     }
+
+                    null -> TODO()
                 }
             }
         }
