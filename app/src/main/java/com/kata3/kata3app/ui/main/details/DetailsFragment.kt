@@ -83,6 +83,9 @@ class DetailsFragment : Fragment() {
             if (item != null) {
                 binding.etName.setText(item.name)
                 binding.etDescription.setText(item.description ?: "")
+            }else{
+                binding.etName.setText("")
+                binding.etDescription.setText("")
             }
         }
 
@@ -97,6 +100,9 @@ class DetailsFragment : Fragment() {
                 }
                 is DetailsResult.Error -> {
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
+                }
+                is DetailsResult.Initial -> {
+                    // Initial state, no action needed
                 }
             }
         }

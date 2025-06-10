@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 sealed class DetailsResult {
     data class Success(val message: String, val isDeleted: Boolean = false) : DetailsResult()
     data class Error(val message: String) : DetailsResult()
+    object Initial : DetailsResult()
 }
 
 class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel() {
@@ -30,11 +31,13 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                 val response = itemRepository.fetchItem(token, id)
                 if (response != null) {
                     _item.postValue(response)
-                    //_result.postValue(null)
+                    _result.postValue(DetailsResult.Initial)
                 } else {
+                    _item.postValue(null)
                     _result.postValue(DetailsResult.Error("Failed to load item."))
                 }
             } catch (e: Exception) {
+                _item.postValue(null)
                 _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
