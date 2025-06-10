@@ -13,8 +13,8 @@ import com.kata3.kata3app.data.repositories.AuthRepository
 import com.kata3.kata3app.databinding.ActivityLoginBinding
 import com.kata3.kata3app.io.AuthService
 import com.kata3.kata3app.ui.main.MainActivity
+import com.kata3.kata3app.ui.signup.SignupActivity
 import com.kata3.kata3app.utils.EncryptedPrefsManager
-import com.valentinConTilde.onmywayapp.utils.CustomPermissionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,7 +22,6 @@ import kotlinx.coroutines.withContext
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var permissionHandler: CustomPermissionHandler
     private val authService: AuthService by lazy {
         AuthService.create(applicationContext)
     }
@@ -40,14 +39,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        permissionHandler = CustomPermissionHandler(this)
-
         if (checkStoredToken()) {
-            if (permissionHandler.checkAndRequestPermissions(this)) {
-                goToMainActivity()
-            } else {
-                goToPermissionsActivity()
-            }
+            goToMainActivity()
             return
         }
 
@@ -69,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.tvSignupRedirect.setOnClickListener {
-            startActivity(Intent(this, com.kata3.kata3app.ui.signup.SignupActivity::class.java))
+            startActivity(Intent(this, SignupActivity::class.java))
             finish()
         }
     }
@@ -82,21 +75,17 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             loginViewModel.loginResult.collect { result ->
                 hideLoadingSpinner()
-                when (result) {
-                    is LoginResult.Success -> {
-                        saveToken(result.token)
-                        Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                        if (permissionHandler.checkAndRequestPermissions(this@LoginActivity)) {
+                if (result != null) {
+                    when (result) {
+                        is LoginResult.Success -> {
+                            saveToken(result.token)
+                            Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                             goToMainActivity()
-                        } else {
-                            goToPermissionsActivity()
+                        }
+                        is LoginResult.Error -> {
+                            Toast.makeText(this@LoginActivity, result.message, Toast.LENGTH_SHORT).show()
                         }
                     }
-                    is LoginResult.Error -> {
-                        Toast.makeText(this@LoginActivity, result.message, Toast.LENGTH_SHORT).show()
-                    }
-
-                    null -> TODO()
                 }
             }
         }
@@ -118,13 +107,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
-        finish()
-    }
-
-    private fun goToPermissionsActivity() {
-        //Toast the user that he has no given permissions
-        Toast.makeText(this, "Please grant permissions to continue.", Toast.LENGTH_LONG).show()
-        //startActivity(Intent(this, PermissionsActivity::class.java))
         finish()
     }
 
