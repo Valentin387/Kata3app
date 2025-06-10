@@ -18,7 +18,7 @@ sealed class DetailsResult {
 
 class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
-    private val _item = MutableLiveData<ItemResponse>()
+    private val _item = MutableLiveData<ItemResponse?>()
     val item: LiveData<ItemResponse> = _item
 
     private val _result = MutableLiveData<DetailsResult>()
@@ -35,7 +35,7 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                     _result.postValue(DetailsResult.Error("Failed to load item."))
                 }
             } catch (e: Exception) {
-                _result.postValue(DetailsResult.Error("Error: ${e.message()}"))
+                _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
     }
@@ -51,7 +51,7 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                     _result.postValue(DetailsResult.Error("Failed to update item."))
                 }
             } catch (e: Exception) {
-                _result.postValue(DetailsResult.Error("Error: ${e.message()}"))
+                _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
     }
@@ -66,7 +66,7 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                     _result.postValue(DetailsResult.Error("Failed to delete item."))
                 }
             } catch (e: Exception) {
-                _result.postValue(DetailsResult.Error("Error: ${e.message()}"))
+                _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
     }

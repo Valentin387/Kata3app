@@ -16,6 +16,7 @@ import com.kata3.kata3app.data.DTO.ItemResponse
 import com.kata3.kata3app.data.repositories.ItemRepository
 import com.kata3.kata3app.databinding.FragmentHomeBinding
 import com.kata3.kata3app.io.ItemService
+import com.kata3.kata3app.ui.main.rvUtils.ItemAdapter
 import com.kata3.kata3app.utils.EncryptedPrefsManager
 
 class HomeFragment : Fragment() {
