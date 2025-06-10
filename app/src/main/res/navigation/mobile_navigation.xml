@@ -1,25 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_projects">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_projects"
         android:name="com.kata3.kata3app.ui.main.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/menu_projects">
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="PROJECT" />
+        <action
+            android:id="@+id/action_homeFragment_to_newItemFragment"
+            app:destination="@id/nav_new_item" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/nav_details" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_login"
-        android:name="com.kata3.kata3app.ui.login.LoginActivity"
-        android:label="@string/menu_login"
-        tools:layout="@layout/activity_login" />
+        android:id="@+id/nav_tasks"
+        android:name="com.kata3.kata3app.ui.main.home.HomeFragment"
+        android:label="@string/menu_tasks">
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="TASK" />
+        <action
+            android:id="@+id/action_homeFragment_to_newItemFragment"
+            app:destination="@id/nav_new_item" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/nav_details" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_signup"
-        android:name="com.kata3.kata3app.ui.signup.SignupActivity"
-        android:label="@string/menu_signup"
-        tools:layout="@layout/activity_signup" />
+        android:id="@+id/nav_new_item"
+        android:name="com.kata3.kata3app.ui.main.newItem.NewItemFragment"
+        android:label="New Item">
+        <action
+            android:id="@+id/action_newItemFragment_to_homeFragment"
+            app:destination="@id/nav_projects"
+            app:popUpTo="@id/nav_projects"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_details"
+        android:name="com.kata3.kata3app.ui.main.details.DetailsFragment"
+        android:label="Details">
+        <argument
+            android:name="itemId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_detailsFragment_to_homeFragment"
+            app:destination="@id/nav_projects"
+            app:popUpTo="@id/nav_projects"
+            app:popUpToInclusive="true" />
+    </fragment>
+
 </navigation>
