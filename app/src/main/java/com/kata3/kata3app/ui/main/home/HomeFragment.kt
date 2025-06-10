@@ -1,4 +1,4 @@
-package com.kata3.kata3app.ui.home
+package com.kata3.kata3app.ui.main.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.kata3.kata3app
+package com.kata3.kata3app.ui.main
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.kata3.kata3app.R
 import com.kata3.kata3app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
