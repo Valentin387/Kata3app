@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.nav_sign_out -> {
+            R.id.action_logout -> {
                 signOut()
                 true
             }
