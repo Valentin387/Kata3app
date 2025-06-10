@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.kata3.kata3app.ui.home.HomeFragment"
+        android:name="com.kata3.kata3app.ui.main.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
@@ -15,11 +15,11 @@
         android:id="@+id/nav_login"
         android:name="com.kata3.kata3app.ui.login.GalleryFragment"
         android:label="@string/menu_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/activity_login" />
 
     <fragment
         android:id="@+id/nav_signup"
-        android:name="com.kata3.kata3app.ui.signup.SlideshowFragment"
+        android:name="com.kata3.kata3app.ui.signup.SignupActivity"
         android:label="@string/menu_signup"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/activity_signup" />
 </navigation>
