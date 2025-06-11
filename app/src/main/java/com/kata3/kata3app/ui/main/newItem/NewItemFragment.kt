@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.kata3.kata3app.R
 import com.kata3.kata3app.data.DTO.ItemCreateRequest
+import com.kata3.kata3app.data.repositories.ItemRepository
 import com.kata3.kata3app.databinding.FragmentNewItemBinding
 import com.kata3.kata3app.io.ItemService
 import com.kata3.kata3app.utils.EncryptedPrefsManager
@@ -50,7 +51,7 @@ class NewItemFragment : Fragment() {
     }
 
     private fun setupSpinner() {
-        val types = arrayOf("Project", "Task")
+        val types = arrayOf("PROJECT", "TASK")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, types)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerType.adapter = adapter
@@ -65,6 +66,8 @@ class NewItemFragment : Fragment() {
             if (validateInput(name)) {
                 showLoadingSpinner()
                 val request = ItemCreateRequest(name, type, description.takeIf { it.isNotEmpty() })
+                // print the request
+                println("Creating item with request: $request")
                 newItemViewModel.createItem(fetchTokenFromPreferences(), request)
             } else {
                 Toast.makeText(context, "Name is required.", Toast.LENGTH_SHORT).show()
@@ -80,11 +83,11 @@ class NewItemFragment : Fragment() {
         newItemViewModel.createResult.observe(viewLifecycleOwner) { result ->
             hideLoadingSpinner()
             when (result) {
-                is CreateResult.Success -> {
+                is CreateItemResult.Success -> {
                     Toast.makeText(context, "Item created successfully!", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_newItemFragment_to_homeFragment)
                 }
-                is CreateResult.Error -> {
+                is CreateItemResult.Error -> {
                     Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -93,20 +96,20 @@ class NewItemFragment : Fragment() {
 
     private fun fetchTokenFromPreferences(): String {
         val preferences = EncryptedPrefsManager.getPreferences()
-        return preferences.getString("id_token", "") ?: ""
+        return preferences.getString("jwt_token", "") ?: ""
     }
-}
 
-private fun showLoadingSpinner() {
-    binding.progressBar.visibility = View.VISIBLE
-}
 
-private fun hideLoadingSpinner() {
-    binding.progressBar.visibility = View.GONE
-}
+    private fun showLoadingSpinner() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
 
-override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null
-}
+    private fun hideLoadingSpinner() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

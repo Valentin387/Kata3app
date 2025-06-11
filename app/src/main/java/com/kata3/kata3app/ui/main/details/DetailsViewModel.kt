@@ -14,12 +14,13 @@ import kotlinx.coroutines.launch
 sealed class DetailsResult {
     data class Success(val message: String, val isDeleted: Boolean = false) : DetailsResult()
     data class Error(val message: String) : DetailsResult()
+    object Initial : DetailsResult()
 }
 
 class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
-    private val _item = MutableLiveData<ItemResponse>()
-    val item: LiveData<ItemResponse> = _item
+    private val _item = MutableLiveData<ItemResponse?>()
+    val item: LiveData<ItemResponse?> = _item
 
     private val _result = MutableLiveData<DetailsResult>()
     val result: LiveData<DetailsResult> = _result
@@ -30,12 +31,14 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                 val response = itemRepository.fetchItem(token, id)
                 if (response != null) {
                     _item.postValue(response)
-                    _result.postValue(null)
+                    _result.postValue(DetailsResult.Initial)
                 } else {
+                    _item.postValue(null)
                     _result.postValue(DetailsResult.Error("Failed to load item."))
                 }
             } catch (e: Exception) {
-                _result.postValue(DetailsResult.Error("Error: ${e.message()}"))
+                _item.postValue(null)
+                _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
     }
@@ -51,7 +54,7 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                     _result.postValue(DetailsResult.Error("Failed to update item."))
                 }
             } catch (e: Exception) {
-                _result.postValue(DetailsResult.Error("Error: ${e.message()}"))
+                _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
     }
@@ -66,7 +69,7 @@ class DetailsViewModel(private val itemRepository: ItemRepository) : ViewModel()
                     _result.postValue(DetailsResult.Error("Failed to delete item."))
                 }
             } catch (e: Exception) {
-                _result.postValue(DetailsResult.Error("Error: ${e.message()}"))
+                _result.postValue(DetailsResult.Error("Error: ${e.message}"))
             }
         }
     }
