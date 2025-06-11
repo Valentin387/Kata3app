@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.kata3.kata3app.R
-import com.kata3.kata3app.data.DTO.ItemResponse
 import com.kata3.kata3app.data.DTO.ItemUpdateRequest
 import com.kata3.kata3app.data.repositories.ItemRepository
 import com.kata3.kata3app.databinding.FragmentDetailsBinding
@@ -81,7 +80,7 @@ class DetailsFragment : Fragment() {
         detailsViewModel.item.observe(viewLifecycleOwner) { item ->
             hideLoadingSpinner()
             if (item != null) {
-                binding.etName.setText(item.name)
+                binding.etName.setText(item.title)
                 binding.etDescription.setText(item.description ?: "")
             }else{
                 binding.etName.setText("")

@@ -12,7 +12,7 @@ class ItemViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         itemModel: ItemResponse,
         onClickListener: (ItemResponse) -> Unit
     ) {
-        binding.tvName.text = itemModel.name
+        binding.tvName.text = itemModel.title
         binding.tvDescription.text = itemModel.description ?: "No description"
 
         itemView.setOnClickListener {
