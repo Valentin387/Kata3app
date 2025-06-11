@@ -51,7 +51,7 @@ class NewItemFragment : Fragment() {
     }
 
     private fun setupSpinner() {
-        val types = arrayOf("Project", "Task")
+        val types = arrayOf("PROJECT", "TASK")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, types)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerType.adapter = adapter
@@ -66,6 +66,8 @@ class NewItemFragment : Fragment() {
             if (validateInput(name)) {
                 showLoadingSpinner()
                 val request = ItemCreateRequest(name, type, description.takeIf { it.isNotEmpty() })
+                // print the request
+                println("Creating item with request: $request")
                 newItemViewModel.createItem(fetchTokenFromPreferences(), request)
             } else {
                 Toast.makeText(context, "Name is required.", Toast.LENGTH_SHORT).show()
