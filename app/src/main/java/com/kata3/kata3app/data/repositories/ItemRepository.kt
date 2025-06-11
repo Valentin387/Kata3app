@@ -47,7 +47,7 @@ class ItemRepository(private val itemService: ItemService) {
                 Log.d("ItemRepository", "Created item: ${response.body()}")
                 response.body()
             } else {
-                Log.e("ItemRepository", "Failed to create item. Code: ${response.code()}")
+                Log.e("ItemRepository", "Failed to create item. Code: ${response}")
                 null
             }
         } catch (e: Exception) {

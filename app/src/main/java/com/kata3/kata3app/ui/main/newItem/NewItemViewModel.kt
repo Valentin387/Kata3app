@@ -22,6 +22,7 @@ class NewItemViewModel(private val itemRepository: ItemRepository) : ViewModel()
     val createResult: LiveData<CreateItemResult> = _createResult
 
     fun createItem(token: String, request: ItemCreateRequest) {
+        println("Creating item with token: $token")
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val item = itemRepository.createItem(token, request)

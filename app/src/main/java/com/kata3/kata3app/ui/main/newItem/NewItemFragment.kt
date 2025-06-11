@@ -96,7 +96,7 @@ class NewItemFragment : Fragment() {
 
     private fun fetchTokenFromPreferences(): String {
         val preferences = EncryptedPrefsManager.getPreferences()
-        return preferences.getString("id_token", "") ?: ""
+        return preferences.getString("jwt_token", "") ?: ""
     }
 
 
