@@ -11,7 +11,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -35,7 +34,6 @@ class NewItemViewModelTest {
     private lateinit var itemRepository: ItemRepository
     private lateinit var createResultObserver: Observer<CreateItemResult>
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
@@ -45,7 +43,6 @@ class NewItemViewModelTest {
         viewModel.createResult.observeForever(createResultObserver)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun tearDown() {
         Dispatchers.resetMain()
@@ -97,18 +94,4 @@ class NewItemViewModelTest {
         // Then
         verify(createResultObserver).onChanged(CreateItemResult.Error("Error: Network error"))
     }
-
-    /*@Test
-    fun `createItem posts Error when token is null`() = runTest(testDispatcher) {
-        // Given
-        val token: String? = null
-        val request = ItemCreateRequest("title", "PROJECT", "desc", false)
-
-        // When
-        viewModel.createItem(token, request)
-        testDispatcher.scheduler.advanceUntilIdle()
-
-        // Then
-        verify(createResultObserver).onChanged(CreateItemResult.Error("No authentication token found."))
-    }*/
 }
