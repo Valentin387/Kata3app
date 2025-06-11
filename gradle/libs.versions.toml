@@ -14,6 +14,10 @@ navigationFragmentKtx = "2.8.5"
 navigationUiKtx = "2.8.5"
 secretsGradlePlugin = "2.0.1"
 securityCrypto = "1.1.0-alpha06"
+mockitoCore = "5.12.0"
+mockitoKotlin = "2.2.0"
+androidxCoreTesting = "2.2.0"
+kotlinxCoroutinesTest = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +36,11 @@ androidx-security-crypto = { group = "androidx.security", name = "security-crypt
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.11.0" }
 retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version = "2.11.0" }
 secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
+
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { group = "com.nhaarman.mockitokotlin2", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidxCoreTesting" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
