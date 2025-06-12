@@ -38,7 +38,7 @@ class NewItemViewModelTest {
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         itemRepository = mock()
-        viewModel = NewItemViewModel(itemRepository)
+        viewModel = NewItemViewModel(itemRepository, testDispatcher)
         createResultObserver = mock()
         viewModel.createResult.observeForever(createResultObserver)
     }
